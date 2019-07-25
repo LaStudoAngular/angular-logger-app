@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class LoggerListComponent implements OnInit, OnDestroy {
   logs: LogModel[];
-  unsubscribe$ = new Subject();
+  unsubscribe$ = new Subject<void>();
 
   constructor(private logService: LoggerService) {}
 
@@ -32,6 +32,6 @@ export class LoggerListComponent implements OnInit, OnDestroy {
   }
 
   onSelect(log: LogModel): void {
-    this.logService.selectLog(log);
+    this.logService.setLog(log);
   }
 }

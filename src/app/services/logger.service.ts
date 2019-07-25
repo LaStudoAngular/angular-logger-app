@@ -11,7 +11,7 @@ export class LoggerService {
   private logSource$ = new BehaviorSubject<LogModel>(new LogModel(null, null, null));
   selectedLogItem = this.logSource$.asObservable();
 
-  selectLog(log: LogModel) {
+  setLog(log: LogModel) {
     this.logSource$.next(log);
   }
 

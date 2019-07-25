@@ -12,19 +12,22 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class LoggerFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  log: LogModel;
   unsubscribe$ = new Subject<void>();
 
   constructor(private logService: LoggerService, private fb: FormBuilder) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.fb.group({
       name: [null],
     });
 
     this.logService.selectedLogItem
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((data: LogModel) => (this.log = data));
+      .subscribe((data: LogModel) => {
+        this.form.patchValue({
+          name: data.text,
+        });
+      });
   }
 
   ngOnDestroy(): void {
