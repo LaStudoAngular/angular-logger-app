@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as faker from 'faker';
-import * as moment from 'moment';
 import { LogModel } from '../models/log.model';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
@@ -26,9 +25,7 @@ export class LoggerService {
   public updateLogItem(name: string, status: boolean, id?: string): void {
     if (status) {
       // ADD NEW LOG ITEM
-      this.logs.unshift(
-        new LogModel(faker.random.uuid(), name, moment(new Date()).format('DD/MM/YYYY HH:MM:SS')),
-      );
+      this.logs.unshift(new LogModel(faker.random.uuid(), name, new Date()));
     } else {
       // UPDATE EXISTING LOG ITEM
       // TODO: try to replace this crocodile by reduce method
@@ -50,34 +47,13 @@ export class LoggerService {
   }
 
   public getAllLogs(): Observable<LogModel[]> {
-    // TODO: use moment for output data only
     if (!localStorage.getItem('logs')) {
       this.logs = [
-        new LogModel(
-          faker.random.uuid(),
-          faker.lorem.words(5),
-          moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
-        ),
-        new LogModel(
-          faker.random.uuid(),
-          faker.lorem.words(5),
-          moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
-        ),
-        new LogModel(
-          faker.random.uuid(),
-          faker.lorem.words(5),
-          moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
-        ),
-        new LogModel(
-          faker.random.uuid(),
-          faker.lorem.words(5),
-          moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
-        ),
-        new LogModel(
-          faker.random.uuid(),
-          faker.lorem.words(5),
-          moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
-        ),
+        new LogModel(faker.random.uuid(), faker.lorem.words(5), faker.date.recent()),
+        new LogModel(faker.random.uuid(), faker.lorem.words(5), faker.date.recent()),
+        new LogModel(faker.random.uuid(), faker.lorem.words(5), faker.date.recent()),
+        new LogModel(faker.random.uuid(), faker.lorem.words(5), faker.date.recent()),
+        new LogModel(faker.random.uuid(), faker.lorem.words(5), faker.date.recent()),
       ];
       this.initLocalStorage(this.logs);
     } else {

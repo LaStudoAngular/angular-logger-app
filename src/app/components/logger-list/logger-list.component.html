@@ -5,7 +5,7 @@
     [ngClass]="{'logger-text-even': even, 'logger-text-odd': odd}"
   >
     <span (click)="onSelect(log)" [ngClass]="{'logger-text--checked': log.id === checked}" class="logger-text col-8 text-dark text-capitalize">{{ log.text }}</span>
-    <span class="logger-date col-3 text-right text-info">{{ log.date }}</span>
+    <span class="logger-date col-3 text-right text-info">{{ log.date | date:'MM/dd/yyyy HH:ss z' }}</span>
     <i (click)="onDelete(log)" class="logger-button fa fa-remove text-danger col-1 text-right"></i>
   </li>
 </ul>
