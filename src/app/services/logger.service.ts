@@ -16,7 +16,7 @@ export class LoggerService {
     this.logSource$.next(log);
   }
 
-  addLogItem(name: string, id: string, status: boolean): void {
+  updateLogItem(name: string, id: string, status: boolean): void {
     if (status) {
       this.logs.push(
         new LogModel(faker.random.uuid(), name, moment(new Date()).format('DD/MM/YYYY HH:MM:SS')),
@@ -28,7 +28,7 @@ export class LoggerService {
   }
 
   deleteLogItem(log: LogModel): void {
-    this.logs = this.logs.filter((item: LogModel) => item.id === log.id);
+    this.logs = this.logs.filter((item: LogModel) => item.id !== log.id);
   }
 
   public getAllLogs(): Observable<LogModel[]> {

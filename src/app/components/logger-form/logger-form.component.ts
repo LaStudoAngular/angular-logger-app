@@ -42,7 +42,7 @@ export class LoggerFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.logService.addLogItem(this.form.get('name').value, this.log.id, this.status);
+    this.logService.updateLogItem(this.form.get('name').value, this.log.id, this.status);
     this.onClear();
   }
 

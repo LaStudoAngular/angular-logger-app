@@ -36,6 +36,7 @@ export class LoggerListComponent implements OnInit, OnDestroy {
   }
 
   onDelete(log: LogModel): void {
+    this.logs = this.logs.filter((el: LogModel) => el.id !== log.id);
     this.logService.deleteLogItem(log);
   }
 }
