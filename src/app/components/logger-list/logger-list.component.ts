@@ -34,4 +34,8 @@ export class LoggerListComponent implements OnInit, OnDestroy {
   onSelect(log: LogModel): void {
     this.logService.setLog(log);
   }
+
+  onDelete(log: LogModel): void {
+    this.logService.deleteLogItem(log);
+  }
 }

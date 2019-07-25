@@ -16,13 +16,19 @@ export class LoggerService {
     this.logSource$.next(log);
   }
 
-  addLogItem(name: string): void {
-    const newLogItem: LogModel = new LogModel(
-      faker.random.uuid(),
-      name,
-      moment(new Date()).format('DD/MM/YYYY HH:MM:SS'),
-    );
-    this.logs.push(newLogItem);
+  addLogItem(name: string, id: string, status: boolean): void {
+    if (status) {
+      this.logs.push(
+        new LogModel(faker.random.uuid(), name, moment(new Date()).format('DD/MM/YYYY HH:MM:SS')),
+      );
+    } else {
+      const editLog: LogModel = this.logs.find((el: LogModel) => el.id === id);
+      editLog.text = name;
+    }
+  }
+
+  deleteLogItem(log: LogModel): void {
+    this.logs = this.logs.filter((item: LogModel) => item.id === log.id);
   }
 
   public getAllLogs(): Observable<LogModel[]> {

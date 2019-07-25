@@ -11,9 +11,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./logger-form.component.scss'],
 })
 export class LoggerFormComponent implements OnInit, OnDestroy {
+  log: LogModel;
   form: FormGroup;
   unsubscribe$ = new Subject<void>();
-  isNew = true;
+  status = true;
 
   constructor(private logService: LoggerService, private fb: FormBuilder) {}
 
@@ -26,9 +27,11 @@ export class LoggerFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((data: LogModel) => {
         if (data.id !== null) {
+          this.log = data;
           this.form.patchValue({
             name: data.text,
           });
+          this.status = false;
         }
       });
   }
@@ -39,11 +42,12 @@ export class LoggerFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.logService.addLogItem(this.form.get('name').value);
+    this.logService.addLogItem(this.form.get('name').value, this.log.id, this.status);
     this.onClear();
   }
 
   onClear(): void {
     this.form.reset();
+    this.status = true;
   }
 }
