@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class LoggerService {
+  private logs: LogModel[];
   private logSource$ = new BehaviorSubject<LogModel>(new LogModel(null, null, null));
   selectedLogItem = this.logSource$.asObservable();
 
@@ -15,8 +16,17 @@ export class LoggerService {
     this.logSource$.next(log);
   }
 
+  addLogItem(name: string): void {
+    const newLogItem: LogModel = new LogModel(
+      faker.random.uuid(),
+      name,
+      moment(new Date()).format('DD/MM/YYYY HH:MM:SS'),
+    );
+    this.logs.push(newLogItem);
+  }
+
   public getAllLogs(): Observable<LogModel[]> {
-    const logs: LogModel[] = [
+    this.logs = [
       new LogModel(
         faker.random.uuid(),
         faker.lorem.words(5),
@@ -43,6 +53,6 @@ export class LoggerService {
         moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
       ),
     ];
-    return of<LogModel[]>(logs);
+    return of<LogModel[]>(this.logs);
   }
 }
