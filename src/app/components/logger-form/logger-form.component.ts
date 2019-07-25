@@ -15,6 +15,7 @@ export class LoggerFormComponent implements OnInit, OnDestroy {
   log: LogModel;
   form: FormGroup;
   status = true;
+  buttonText = 'add';
 
   constructor(private logService: LoggerService, private fb: FormBuilder) {}
 
@@ -32,11 +33,10 @@ export class LoggerFormComponent implements OnInit, OnDestroy {
             name: data.text,
           });
           this.status = false;
+          this.buttonText = 'edit';
         }
       });
   }
-
-  // TODO: add possibility to change button view for add or update data
 
   onSubmit() {
     this.logService.updateLogItem(
@@ -50,6 +50,7 @@ export class LoggerFormComponent implements OnInit, OnDestroy {
   onClear(): void {
     this.form.reset();
     this.status = true;
+    this.buttonText = 'add';
     this.logService.updateState();
   }
 

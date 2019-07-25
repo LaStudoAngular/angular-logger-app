@@ -3,7 +3,7 @@
     <div class="form-group">
       <input formControlName="name" class="form-control" type="text" name="input" id="input" placeholder="Add a log here ...">
     </div>
-    <button [disabled]="!form.get('name').value" type="submit" class="btn btn-light text-capitalize mr-2">add log</button>
+    <button [disabled]="!form.get('name').value" type="submit" class="btn btn-light text-capitalize mr-2">{{ buttonText }} log</button>
     <button [hidden]="!form.get('name').value" (click)="onClear()" type="button" class="btn btn-warning text-capitalize">clear log</button>
   </form>
 </div>
