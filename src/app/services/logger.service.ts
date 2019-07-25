@@ -37,6 +37,7 @@ export class LoggerService {
       item[0].text = name;
       this.logs.unshift(item[0]);
     }
+    this.initLocalStorage(this.logs);
   }
 
   public deleteLogItem(log: LogModel): void {
@@ -44,38 +45,48 @@ export class LoggerService {
       // TODO: try to replace this crocodile by reduce method
       const idx: number = this.logs.findIndex((el: LogModel) => el.id === log.id);
       this.logs.splice(idx, 1);
+      this.initLocalStorage(this.logs);
     }
   }
 
   public getAllLogs(): Observable<LogModel[]> {
     // TODO: use moment for output data only
-    this.logs = [
-      new LogModel(
-        faker.random.uuid(),
-        faker.lorem.words(5),
-        moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
-      ),
-      new LogModel(
-        faker.random.uuid(),
-        faker.lorem.words(5),
-        moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
-      ),
-      new LogModel(
-        faker.random.uuid(),
-        faker.lorem.words(5),
-        moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
-      ),
-      new LogModel(
-        faker.random.uuid(),
-        faker.lorem.words(5),
-        moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
-      ),
-      new LogModel(
-        faker.random.uuid(),
-        faker.lorem.words(5),
-        moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
-      ),
-    ];
+    if (!localStorage.getItem('logs')) {
+      this.logs = [
+        new LogModel(
+          faker.random.uuid(),
+          faker.lorem.words(5),
+          moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
+        ),
+        new LogModel(
+          faker.random.uuid(),
+          faker.lorem.words(5),
+          moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
+        ),
+        new LogModel(
+          faker.random.uuid(),
+          faker.lorem.words(5),
+          moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
+        ),
+        new LogModel(
+          faker.random.uuid(),
+          faker.lorem.words(5),
+          moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
+        ),
+        new LogModel(
+          faker.random.uuid(),
+          faker.lorem.words(5),
+          moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'),
+        ),
+      ];
+      this.initLocalStorage(this.logs);
+    } else {
+      this.logs = JSON.parse(localStorage.getItem('logs'));
+    }
     return of<LogModel[]>(this.logs);
+  }
+
+  private initLocalStorage(logs: LogModel[]): void {
+    localStorage.setItem('logs', JSON.stringify(this.logs));
   }
 }
