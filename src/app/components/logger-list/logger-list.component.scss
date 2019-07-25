@@ -1,0 +1,11 @@
+.logger-button {
+  cursor: pointer;
+}
+
+.logger-item {
+  transition: border-color .2s ease-in-out;
+
+  &:hover {
+    border-color: cadetblue;
+  }
+}

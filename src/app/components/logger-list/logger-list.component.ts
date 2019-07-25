@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {LogModel} from '../../models/log.model';
 import * as faker from 'faker';
+import * as moment from 'moment';
 
 @Component({
   selector: 'dl-logger-list',
@@ -14,10 +15,10 @@ export class LoggerListComponent implements OnInit {
 
   ngOnInit() {
     this.logs = [
-      new LogModel(faker.random.uuid(), faker.lorem.sentence(), faker.date.recent()),
-      new LogModel(faker.random.uuid(), faker.lorem.sentence(), faker.date.recent()),
-      new LogModel(faker.random.uuid(), faker.lorem.sentence(), faker.date.recent()),
-      new LogModel(faker.random.uuid(), faker.lorem.sentence(), faker.date.recent())
+      new LogModel(faker.random.uuid(), faker.lorem.words(5), moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS')),
+      new LogModel(faker.random.uuid(), faker.lorem.words(5), moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS')),
+      new LogModel(faker.random.uuid(), faker.lorem.words(5), moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS')),
+      new LogModel(faker.random.uuid(), faker.lorem.words(5), moment(faker.date.recent()).format('DD/MM/YYYY HH:MM:SS'))
     ];
   }
 
