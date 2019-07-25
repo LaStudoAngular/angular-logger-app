@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoggerService } from '../../services/logger.service';
 import { LogModel } from '../../models/log.model';
-import { Subject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -11,9 +11,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./logger-form.component.scss'],
 })
 export class LoggerFormComponent implements OnInit, OnDestroy {
+  private readonly unsubscribe$ = new ReplaySubject<void>(1);
   log: LogModel;
   form: FormGroup;
-  unsubscribe$ = new Subject<void>();
   status = true;
 
   constructor(private logService: LoggerService, private fb: FormBuilder) {}
@@ -36,18 +36,24 @@ export class LoggerFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
+  // TODO: add possibility to change button view for add or update data
 
   onSubmit() {
-    this.logService.updateLogItem(this.form.get('name').value, this.log.id, this.status);
+    this.logService.updateLogItem(
+      this.form.get('name').value,
+      this.status,
+      this.log != null ? this.log.id : undefined, // magic!
+    );
     this.onClear();
   }
 
   onClear(): void {
     this.form.reset();
     this.status = true;
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

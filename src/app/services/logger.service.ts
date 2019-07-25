@@ -10,25 +10,30 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 export class LoggerService {
   private logs: LogModel[];
   private logSource$ = new BehaviorSubject<LogModel>(new LogModel(null, null, null));
-  selectedLogItem = this.logSource$.asObservable();
+  public selectedLogItem = this.logSource$.asObservable();
 
-  setLog(log: LogModel) {
+  public setLog(log: LogModel) {
     this.logSource$.next(log);
   }
 
-  updateLogItem(name: string, id: string, status: boolean): void {
+  public updateLogItem(name: string, status: boolean, id?: string): void {
     if (status) {
-      this.logs.push(
+      // add new log item
+      this.logs.unshift(
         new LogModel(faker.random.uuid(), name, moment(new Date()).format('DD/MM/YYYY HH:MM:SS')),
       );
     } else {
-      const editLog: LogModel = this.logs.find((el: LogModel) => el.id === id);
-      editLog.text = name;
+      // update existing log item
+      const idx: number = this.logs.findIndex((el: LogModel) => el.id === id);
+      const item: LogModel[] = this.logs.splice(idx, 1);
+      item[0].text = name;
+      this.logs.unshift(item[0]);
     }
   }
 
-  deleteLogItem(log: LogModel): void {
-    this.logs = this.logs.filter((item: LogModel) => item.id !== log.id);
+  public deleteLogItem(log: LogModel): void {
+    const idx: number = this.logs.findIndex((el: LogModel) => el.id === log.id);
+    this.logs.splice(idx, 1);
   }
 
   public getAllLogs(): Observable<LogModel[]> {

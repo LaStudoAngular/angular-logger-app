@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LogModel } from '../../models/log.model';
 import { LoggerService } from '../../services/logger.service';
-import { Subject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -10,8 +10,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./logger-list.component.scss'],
 })
 export class LoggerListComponent implements OnInit, OnDestroy {
+  private readonly unsubscribe$ = new ReplaySubject<void>(1);
   logs: LogModel[];
-  unsubscribe$ = new Subject<void>();
 
   constructor(private logService: LoggerService) {}
 
@@ -36,7 +36,6 @@ export class LoggerListComponent implements OnInit, OnDestroy {
   }
 
   onDelete(log: LogModel): void {
-    this.logs = this.logs.filter((el: LogModel) => el.id !== log.id);
     this.logService.deleteLogItem(log);
   }
 }
