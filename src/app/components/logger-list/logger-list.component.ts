@@ -30,4 +30,8 @@ export class LoggerListComponent implements OnInit, OnDestroy {
   trackByFunction(item): string {
     return item ? item.id : undefined;
   }
+
+  onSelect(log: LogModel): void {
+    this.logService.selectLog(log);
+  }
 }

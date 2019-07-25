@@ -2,13 +2,20 @@ import { Injectable } from '@angular/core';
 import * as faker from 'faker';
 import * as moment from 'moment';
 import { LogModel } from '../models/log.model';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoggerService {
-  getAllLogs(): Observable<LogModel[]> {
+  private logSource$ = new BehaviorSubject<LogModel>(new LogModel(null, null, null));
+  selectedLogItem = this.logSource$.asObservable();
+
+  selectLog(log: LogModel) {
+    this.logSource$.next(log);
+  }
+
+  public getAllLogs(): Observable<LogModel[]> {
     const logs: LogModel[] = [
       new LogModel(
         faker.random.uuid(),
