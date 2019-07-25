@@ -42,7 +42,7 @@ export class LoggerFormComponent implements OnInit, OnDestroy {
     this.logService.updateLogItem(
       this.form.get('name').value,
       this.status,
-      this.log != null ? this.log.id : undefined, // magic!
+      this.log != null ? this.log.id : undefined,
     );
     this.onClear();
   }
@@ -50,6 +50,7 @@ export class LoggerFormComponent implements OnInit, OnDestroy {
   onClear(): void {
     this.form.reset();
     this.status = true;
+    this.logService.updateState();
   }
 
   ngOnDestroy(): void {

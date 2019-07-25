@@ -12,6 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 export class LoggerListComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new ReplaySubject<void>(1);
   logs: LogModel[];
+  checked = '';
 
   constructor(private logService: LoggerService) {}
 
@@ -20,22 +21,26 @@ export class LoggerListComponent implements OnInit, OnDestroy {
       .getAllLogs()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((data: LogModel[]) => (this.logs = data));
+    this.logService.stateClear
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => (this.checked = ''));
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+  onSelect(log: LogModel): void {
+    this.logService.setLog(log);
+    this.checked = log.id;
+  }
+
+  onDelete(log: LogModel): void {
+    this.logService.deleteLogItem(log);
   }
 
   trackByFunction(item): string {
     return item ? item.id : undefined;
   }
 
-  onSelect(log: LogModel): void {
-    this.logService.setLog(log);
-  }
-
-  onDelete(log: LogModel): void {
-    this.logService.deleteLogItem(log);
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
