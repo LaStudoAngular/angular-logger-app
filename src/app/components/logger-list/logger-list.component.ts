@@ -13,6 +13,7 @@ export class LoggerListComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new ReplaySubject<void>(1);
   logs: LogModel[];
   checked = '';
+  load = false;
 
   constructor(private logService: LoggerService) {}
 
@@ -24,6 +25,7 @@ export class LoggerListComponent implements OnInit, OnDestroy {
     this.logService.stateClear
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => (this.checked = ''));
+    this.load = true;
   }
 
   onSelect(log: LogModel): void {
