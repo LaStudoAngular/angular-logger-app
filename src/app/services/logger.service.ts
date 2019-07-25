@@ -31,6 +31,7 @@ export class LoggerService {
       );
     } else {
       // UPDATE EXISTING LOG ITEM
+      // TODO: try to replace this crocodile by reduce method
       const idx: number = this.logs.findIndex((el: LogModel) => el.id === id);
       const item: LogModel[] = this.logs.splice(idx, 1);
       item[0].text = name;
@@ -40,6 +41,7 @@ export class LoggerService {
 
   public deleteLogItem(log: LogModel): void {
     if (confirm('Are you sure to delete this log?')) {
+      // TODO: try to replace this crocodile by reduce method
       const idx: number = this.logs.findIndex((el: LogModel) => el.id === log.id);
       this.logs.splice(idx, 1);
     }
