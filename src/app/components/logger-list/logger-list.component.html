@@ -1,7 +1,11 @@
-<ul class="list-group mt-4">
-  <li *ngFor="let log of logs" class="list-group-item d-flex justify-content-between align-items-center mb-1">
-    <span class="logger-text">{{log.text}}</span>
-    <span class="logger-date">{{log.date}}</span>
-    <i class="fa fa-remove"></i>
+<ul class="logger-list list-group mt-4">
+  <li
+    *ngFor="let log of logs; even as even; odd as odd; trackBy: trackByFunction"
+    class="logger-item list-group-item d-flex justify-content-between align-items-center mb-1"
+    [ngClass]="{'logger-text-even': even, 'logger-text-odd': odd}"
+  >
+    <span class="logger-text col-8 text-dark text-capitalize">{{ log.text }}</span>
+    <span class="logger-date col-3 text-right text-info">{{ log.date }}</span>
+    <i class="logger-button fa fa-remove text-danger col-1 text-right"></i>
   </li>
 </ul>

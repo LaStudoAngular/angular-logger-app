@@ -1,0 +1,19 @@
+.logger-button {
+  cursor: pointer;
+}
+
+.logger-item {
+  transition: border-color .2s ease-in-out;
+
+  &:hover {
+    border-color: cadetblue;
+  }
+}
+
+.logger-text-even {
+  background-color: lightblue;
+}
+
+.logger-text-odd {
+  background-color: whitesmoke;
+}
